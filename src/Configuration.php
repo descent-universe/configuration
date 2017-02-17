@@ -107,13 +107,33 @@ class Configuration implements ConfigurationInterface
      * registers the provided configuration providers.
      *
      * @param ConfigProviderInterface[] ...$provider
-     * @return mixed
+     * @return ConfigurationInterface
      */
-    public function register(ConfigProviderInterface ... $provider)
+    public function register(ConfigProviderInterface ... $provider): ConfigurationInterface
     {
         foreach ( $provider as $current ) {
             $this->set($current->getConfigurationQuery(), $current->configuration());
         }
+
+        return $this;
     }
+
+    /**
+     * creates the configuration from a given array. The array may contain query path notation.
+     *
+     * @param array $configuration
+     * @return ConfigurationInterface
+     */
+    public static function create(array $configuration): ConfigurationInterface
+    {
+        $instance = new static;
+
+        foreach ( $configuration as $key => $value ) {
+            $instance->set($key, $value);
+        }
+
+        return $instance;
+    }
+
 
 }
