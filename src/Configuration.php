@@ -134,6 +134,5 @@ class Configuration implements ConfigurationInterface
 
         return $instance;
     }
-
-
+    
 }
